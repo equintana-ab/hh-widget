@@ -4,29 +4,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Promo Block</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <style>
-      /* ---- host-page reset for the demo only ---- */
       * {
         box-sizing: border-box;
-      }
-      body {
         margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-        background: #f2f2f2;
-        overflow-x: clip; /* modern browsers */
-        overflow-x: hidden; /* fallback for older browsers */
+        font-family: "Poppins", Helvetica, Arial, sans-serif;
       }
 
       .content-column-demo {
-        max-width: 700px;
-        margin: 24px auto;
         background: #fff;
         padding: 0 16px;
       }
 
       /* =========================================================
-   PROMO BLOCK
-     ========================================================= */
+         PROMO BLOCK
+         ========================================================= */
       .hh-promo-block {
         --hh-blue: #0b3d91;
         --hh-orange: #f7941d;
@@ -76,14 +71,17 @@
       }
 
       /* ---- Full-bleed breakout slider ----
-     Standard breakout used across Magento CMS blocks so the row can be
-     wider than the constrained content column it sits in. */
+         Standard breakout used across Magento CMS blocks so the row can be
+         wider than the constrained content column it sits in. */
       .hh-slider {
         position: relative;
         left: 50%;
         width: 100vw;
         transform: translateX(-50%);
       }
+
+      /* This is the actual scroll container — it MUST wrap the cards.
+         Without it there's no overflow-x/snap context to scroll at all. */
       .hh-slider__track {
         display: flex;
         gap: 8px;
@@ -104,77 +102,35 @@
         scroll-snap-type: none;
       }
 
-      .hh-card {
-        position: relative;
+      /* Image cards — same sizing role the placeholder .hh-card divs had.
+         Sizing/snap now lives on the anchor; the img just fills it. */
+      .hh-card__link {
         flex: 0 0 auto;
+        display: block;
         width: 78vw; /* peek the next card on mobile */
-        max-width: 340px;
-        aspect-ratio: 16 / 9;
-        border-radius: 10px;
         overflow: hidden;
         scroll-snap-align: start;
-        color: #fff;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 16px 18px;
-        background: linear-gradient(135deg, #1e6fe0 0%, #0b3d91 100%);
-        user-select: none;
-        -webkit-user-select: none;
-      }
-      .hh-card img {
         -webkit-user-drag: none;
-        pointer-events: none;
+        user-select: none;
       }
-      .hh-card--pa-deliver {
-        background: linear-gradient(135deg, #2f8bf5 0%, #0b3d91 100%);
-      }
-      .hh-card--viber {
-        background: linear-gradient(135deg, #0b3d91 0%, #071f4d 100%);
-      }
-
-      .hh-card__logo {
-        font-weight: 800;
-        font-size: 20px;
-        margin: 0 0 8px;
-      }
-      .hh-card__title {
-        font-weight: 800;
-        font-size: 20px;
-        line-height: 1.1;
-        text-transform: uppercase;
-        margin: 0;
-      }
-      .hh-card__subtitle {
-        font-size: 12px;
-        font-weight: 600;
-        margin: 4px 0 0;
-        opacity: 0.95;
-      }
-      .hh-card__badge {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background: rgba(0, 0, 0, 0.35);
-        border: 1px solid rgba(255, 255, 255, 0.6);
-        border-radius: 20px;
-        font-size: 10px;
-        font-weight: 700;
-        padding: 4px 10px;
-        display: flex;
-        align-items: center;
-        gap: 4px;
+      .hh-card__img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        -webkit-user-drag: none;
+        user-select: none;
+        pointer-events: none; /* let the track/anchor handle drag+click, not the image */
       }
 
       @media (min-width: 480px) {
-        .hh-card {
+        .hh-card__link {
           width: 300px;
-          padding: 20px 22px;
         }
       }
       @media (min-width: 900px) {
-        .hh-card {
-          width: 320px;
+        .hh-card__link {
+          width: 80%;
         }
       }
     </style>
@@ -189,23 +145,15 @@
 
         <div class="hh-slider">
           <div class="hh-slider__track" data-hh-track>
-            <div class="hh-card hh-card--preorder">
-              <p class="hh-card__logo">abenson</p>
-              <p class="hh-card__title">Pre-Order</p>
-              <p class="hh-card__subtitle">with a Personal Shopper</p>
-            </div>
-
-            <div class="hh-card hh-card--pa-deliver">
-              <span class="hh-card__badge">Pa-Deliver</span>
-              <p class="hh-card__title">Pa-Deliver</p>
-              <p class="hh-card__subtitle">Next-Day and Same-Day</p>
-            </div>
-
-            <div class="hh-card hh-card--viber">
-              <span class="hh-card__badge">Viber</span>
-              <p class="hh-card__title">abenson</p>
-              <p class="hh-card__subtitle">Viber Official Account — Chat lang!</p>
-            </div>
+            <a class="hh-card__link" href="/pre-order" aria-label="Pre-Order with a Personal Shopper">
+              <img class="hh-card__img" src="./assets/banner-image.jpg" alt="Abenson Banner" />
+            </a>
+            <a class="hh-card__link" href="/pa-deliver" aria-label="Pa-Deliver Next-Day and Same-Day">
+              <img class="hh-card__img" src="./assets/pa-deliver-image.jpg" alt="Pa-Deliver Banner" />
+            </a>
+            <a class="hh-card__link" href="/viber" aria-label="Chat with abenson on Viber">
+              <img class="hh-card__img" src="./assets/viber-image.jpg" alt="Viber Banner" />
+            </a>
           </div>
         </div>
       </div>
@@ -213,7 +161,7 @@
 
     <script>
       /* SPA-safe init: IIFE + guard flag + data-bound attribute + MutationObserver,
-   so this survives client-side route changes in the Siminia PWA shell. */
+         so this survives client-side route changes in the Siminia PWA shell. */
       (function () {
         if (window.__hhPromoInit) return;
         window.__hhPromoInit = true;
@@ -225,9 +173,12 @@
           let isDown = false;
           let startX = 0;
           let scrollLeft = 0;
+          let dragDistance = 0;
+          const DRAG_THRESHOLD = 6; // px of mouse movement before a "click" counts as a drag
 
           const start = (x) => {
             isDown = true;
+            dragDistance = 0;
             track.classList.add("is-dragging");
             startX = x - track.offsetLeft;
             scrollLeft = track.scrollLeft;
@@ -236,6 +187,7 @@
             if (!isDown) return;
             e.preventDefault();
             const walk = x - track.offsetLeft - startX;
+            dragDistance = Math.max(dragDistance, Math.abs(walk));
             track.scrollLeft = scrollLeft - walk;
           };
           const end = () => {
@@ -248,6 +200,16 @@
           track.addEventListener("mousemove", (e) => move(e.pageX, e));
           track.addEventListener("mouseup", end);
           track.addEventListener("mouseleave", end);
+
+          // A dragged swipe shouldn't fire the card's link navigation —
+          // only suppress the click when the mouse actually moved past the threshold.
+          track.querySelectorAll(".hh-card__link").forEach((link) => {
+            link.addEventListener("click", (e) => {
+              if (dragDistance > DRAG_THRESHOLD) {
+                e.preventDefault();
+              }
+            });
+          });
         }
 
         function init(root) {
